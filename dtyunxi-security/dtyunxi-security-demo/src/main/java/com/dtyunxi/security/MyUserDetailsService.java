@@ -44,6 +44,8 @@ public class MyUserDetailsService implements UserDetailsService{
         if(this.bCryptPasswordEncoder.matches("123456",password)){
             return new User(userName,password, AuthorityUtils.createAuthorityList("admin"));
         }
+        log.error("用户名或密码错误");
         throw new BadCredentialsException("用户名或密码错误");
+
     }
 }
