@@ -11,7 +11,11 @@
 package com.dtyunxi.securitybrowser.config;
 
 
+import com.dtyunxi.security.core.properties.SecurityConstants;
 import com.dtyunxi.security.core.properties.SecurityProperties;
+import com.dtyunxi.security.core.validate.code.ValidateCodeFilter;
+import com.dtyunxi.securitybrowser.security.MyAuthenticationFailureHandler;
+import com.dtyunxi.securitybrowser.security.MyAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +25,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * 〈〉
@@ -37,7 +46,31 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     @Autowired
+    @SuppressWarnings("all")
     private SecurityProperties securityProperties;
+
+    @Autowired
+    MyAuthenticationSuccessHandler myAuthenticationSuccessHandler;
+
+    @Autowired
+    MyAuthenticationFailureHandler myAuthenticationFailureHandler;
+
+    @Autowired
+    ValidateCodeFilter validateCodeFilter;
+
+    //	注入数据源的配置
+    @Autowired
+    @SuppressWarnings("all")
+    private DataSource dataSource;
+
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        //  在项目启动时自动创建表
+//        jdbcTokenRepository.setCreateTableOnStartup(true);
+        return jdbcTokenRepository;
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -52,12 +85,21 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-            http.formLogin()
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
+                .successHandler(myAuthenticationSuccessHandler)
+                //  配置登陆失败处理器
+                .failureHandler(myAuthenticationFailureHandler)
+                .and()
+                .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .userDetailsService(userDetailsService)
+                .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require", securityProperties.getBrowser().getLoginPage()).permitAll()
+                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",securityProperties.getBrowser().getLoginPage()).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

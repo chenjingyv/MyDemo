@@ -8,13 +8,12 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.dtyunxi.security.core.validate.core;
+package com.dtyunxi.security.core.validate.code;
 
 import com.dtyunxi.security.core.properties.SecurityProperties;
+import com.dtyunxi.security.core.validate.code.image.ImageCode;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -97,14 +96,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter  {
         }
         if (codeInSession.isExpried()) {
             sessionStrategy.removeAttribute(servletWebRequest, ValidateCodeController.SESSION_KEY_IMAGE_CODE);
-//            httpServletRequest.getSession().removeAttribute(ValidateCodeController.SESSION_KEY_IMAGE_CODE);
             throw new ValidateCodeException("验证码已过期");
         }
         if (!StringUtils.equalsIgnoreCase(codeInSession.getCode(), codeInRequest)) {
             throw new ValidateCodeException("验证码不匹配");
         }
         sessionStrategy.removeAttribute(servletWebRequest, ValidateCodeController.SESSION_KEY_IMAGE_CODE);
-//        httpServletRequest.getSession().removeAttribute(ValidateCodeController.SESSION_KEY_IMAGE_CODE);
     }
 
     public AuthenticationFailureHandler getAuthenticationFailureHandler() {

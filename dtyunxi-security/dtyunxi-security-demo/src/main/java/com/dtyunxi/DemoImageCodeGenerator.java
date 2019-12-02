@@ -1,8 +1,8 @@
 package com.dtyunxi;
 
 import com.dtyunxi.security.core.properties.SecurityProperties;
-import com.dtyunxi.security.core.validate.core.ImageCode;
-import com.dtyunxi.security.core.validate.core.ValidateCodeGenerator;
+import com.dtyunxi.security.core.validate.code.image.ImageCode;
+import com.dtyunxi.security.core.validate.code.ValidateCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
@@ -15,14 +15,9 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 
 @Component("imageCodeGenerator")
@@ -143,7 +138,7 @@ public class DemoImageCodeGenerator implements ValidateCodeGenerator {
     }
 
     @Override
-    public ImageCode createImageCode(HttpServletRequest request) {
+    public ImageCode generator(HttpServletRequest request) {
         System.out.println("更高级的图形验证码生成代码");
         int w = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getCode().getImage().getWidth());
         int h = ServletRequestUtils.getIntParameter(request, "height", securityProperties.getCode().getImage().getHeight());

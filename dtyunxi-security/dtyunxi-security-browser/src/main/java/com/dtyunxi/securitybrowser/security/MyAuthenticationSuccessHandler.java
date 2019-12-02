@@ -31,7 +31,7 @@ import java.io.IOException;
  * @since 1.0.0
  */
 @Component
-public class MyAuthticationSuccessHandler implements AuthenticationSuccessHandler{
+public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

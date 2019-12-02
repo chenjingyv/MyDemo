@@ -22,6 +22,10 @@ package com.dtyunxi.security.core.properties;
 public class ValidateCodeProperties {
     private ImageCodeProperties image = new ImageCodeProperties();
 
+    private SmsCodeProperties sms = new SmsCodeProperties();
+    /**
+     * 需要验证码校验的url,多个url用逗号隔开
+     */
     private String url;
 
     public ImageCodeProperties getImage() {
@@ -30,6 +34,14 @@ public class ValidateCodeProperties {
 
     public void setImage(ImageCodeProperties image) {
         this.image = image;
+    }
+
+    public SmsCodeProperties getSms() {
+        return sms;
+    }
+
+    public void setSms(SmsCodeProperties sms) {
+        this.sms = sms;
     }
 
     public String getUrl() {

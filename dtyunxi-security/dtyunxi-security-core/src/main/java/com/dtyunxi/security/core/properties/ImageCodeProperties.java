@@ -19,20 +19,13 @@ package com.dtyunxi.security.core.properties;
  * @since 1.0.0
  */
 
-public class ImageCodeProperties {
+public class ImageCodeProperties extends SmsCodeProperties{
     private int width = 65;
     /**
      * 长度
      */
     private int height = 40;
-    /**
-     * 验证码长度
-     */
-    private int length = 4;
-    /**
-     * 过期时间
-     */
-    private int expireIn = 60;
+
 
     public int getWidth() {
         return width;
@@ -48,21 +41,5 @@ public class ImageCodeProperties {
 
     public void setHeight(int height) {
         this.height = height;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public void setLength(int length) {
-        this.length = length;
-    }
-
-    public int getExpireIn() {
-        return expireIn;
-    }
-
-    public void setExpireIn(int expireIn) {
-        this.expireIn = expireIn;
     }
 }

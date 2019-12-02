@@ -1,15 +1,14 @@
 /**
  * Copyright (C), 2016-2019, 云徙科技
- * FileName: ImageCode
+ * FileName: ValidateCode
  * Author:   Administrator
- * Date:     2019/11/30 15:41
+ * Date:     2019/12/1 11:04
  * Description:
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.dtyunxi.security.core.validate.core;
-
+package com.dtyunxi.security.core.validate.code;
 
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
@@ -19,18 +18,16 @@ import java.time.LocalDateTime;
  * 〈〉
  *
  * @author Administrator
- * @create 2019/11/30
+ * @create 2019/12/1
  * @since 1.0.0
  */
-public class ImageCode {
+public class ValidateCode {
 
     private String code;
-    private BufferedImage image;
     private LocalDateTime expireTime;
 
-    public ImageCode(String code, BufferedImage image, int expireSecond) {
+    public ValidateCode(String code, int expireSecond) {
         this.code = code;
-        this.image = image;
         this.expireTime = LocalDateTime.now().plusSeconds(expireSecond);
     }
 
@@ -46,14 +43,6 @@ public class ImageCode {
         this.code = code;
     }
 
-    public BufferedImage getImage() {
-        return image;
-    }
-
-    public void setImage(BufferedImage image) {
-        this.image = image;
-    }
-
     public LocalDateTime getExpireTime() {
         return expireTime;
     }
@@ -61,4 +50,5 @@ public class ImageCode {
     public void setExpireTime(LocalDateTime expireTime) {
         this.expireTime = expireTime;
     }
+
 }

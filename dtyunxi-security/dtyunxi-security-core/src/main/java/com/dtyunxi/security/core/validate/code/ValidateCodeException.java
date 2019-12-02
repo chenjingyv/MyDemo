@@ -8,7 +8,7 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.dtyunxi.security.core.validate.core;
+package com.dtyunxi.security.core.validate.code;
 
 import org.springframework.security.core.AuthenticationException;
 

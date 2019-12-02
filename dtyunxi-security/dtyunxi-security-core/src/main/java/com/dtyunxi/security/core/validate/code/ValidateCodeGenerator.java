@@ -8,7 +8,10 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package com.dtyunxi.security.core.validate.core;
+package com.dtyunxi.security.core.validate.code;
+
+import com.dtyunxi.security.core.validate.code.image.ImageCode;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,5 +24,5 @@ import javax.servlet.http.HttpServletRequest;
  * @since 1.0.0
  */
 public interface ValidateCodeGenerator {
-    ImageCode createImageCode(HttpServletRequest request);
+    ValidateCode generator(ServletWebRequest request);
 }

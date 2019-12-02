@@ -10,9 +10,7 @@
  */
 package com.dtyunxi.security.core.properties;
 
-import com.dtyunxi.security.core.validate.core.ValidateCodeController;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  *
