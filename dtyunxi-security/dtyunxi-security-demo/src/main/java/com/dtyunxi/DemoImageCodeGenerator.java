@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -18,9 +19,8 @@ import java.awt.image.BufferedImage;
 import java.util.Arrays;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
 
-@Component("imageCodeGenerator")
+@Component("imageValidateCodeGenerator")
 public class DemoImageCodeGenerator implements ValidateCodeGenerator {
 
     //使用到Algerian字体，系统里没有的话需要安装字体，字体只显示大写，去掉了1,0,i,o几个容易混淆的字符
@@ -28,6 +28,7 @@ public class DemoImageCodeGenerator implements ValidateCodeGenerator {
     private static Random random = new Random();
 
     @Autowired
+    @SuppressWarnings("all")
     private SecurityProperties securityProperties;
 
 
@@ -138,10 +139,10 @@ public class DemoImageCodeGenerator implements ValidateCodeGenerator {
     }
 
     @Override
-    public ImageCode generator(HttpServletRequest request) {
+    public ImageCode generator(ServletWebRequest request) {
         System.out.println("更高级的图形验证码生成代码");
-        int w = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getCode().getImage().getWidth());
-        int h = ServletRequestUtils.getIntParameter(request, "height", securityProperties.getCode().getImage().getHeight());
+        int w = ServletRequestUtils.getIntParameter(request.getRequest(), "width", securityProperties.getCode().getImage().getWidth());
+        int h = ServletRequestUtils.getIntParameter(request.getRequest(), "height", securityProperties.getCode().getImage().getHeight());
         int length = securityProperties.getCode().getImage().getLength();
         String code = generateVerifyCode(length);
         BufferedImage image = new BufferedImage(w, h,

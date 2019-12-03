@@ -11,6 +11,7 @@
 package com.dtyunxi.securitybrowser.config;
 
 
+import com.dtyunxi.security.core.authentication.mobile.SmsCodeAuthenticationFilter;
 import com.dtyunxi.security.core.properties.SecurityConstants;
 import com.dtyunxi.security.core.properties.SecurityProperties;
 import com.dtyunxi.security.core.validate.code.ValidateCodeFilter;
@@ -58,6 +59,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     ValidateCodeFilter validateCodeFilter;
 
+    @Autowired
+    SmsCodeAuthenticationFilter smsCodeAuthenticationFilter;
+
     //	注入数据源的配置
     @Autowired
     @SuppressWarnings("all")
@@ -86,6 +90,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(smsCodeAuthenticationFilter,UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/authentication/require")
                 .loginProcessingUrl("/authentication/form")
