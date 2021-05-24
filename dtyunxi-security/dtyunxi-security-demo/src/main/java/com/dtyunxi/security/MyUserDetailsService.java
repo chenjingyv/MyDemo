@@ -30,7 +30,7 @@ import org.springframework.stereotype.Service;
  * @since 1.0.0
  */
 @Service
-public class MyUserDetailsService implements UserDetailsService{
+public class  MyUserDetailsService implements UserDetailsService{
 
     private Logger log = LoggerFactory.getLogger(MyUserDetailsService.class);
 
@@ -42,7 +42,7 @@ public class MyUserDetailsService implements UserDetailsService{
         String password = this.bCryptPasswordEncoder.encode("123456");
         log.info(password);
         if(this.bCryptPasswordEncoder.matches("123456",password)){
-            return new User(userName,password, AuthorityUtils.createAuthorityList("admin"));
+            return new User(userName,password,true,true,true,true, AuthorityUtils.createAuthorityList("admin"));
         }
         log.error("用户名或密码错误");
         throw new BadCredentialsException("用户名或密码错误");

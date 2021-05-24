@@ -59,8 +59,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     ValidateCodeFilter validateCodeFilter;
 
-    @Autowired
-    SmsCodeAuthenticationFilter smsCodeAuthenticationFilter;
 
     //	注入数据源的配置
     @Autowired
@@ -104,7 +102,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())
                 .and()
                 .authorizeRequests()
-                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",securityProperties.getBrowser().getLoginPage()).permitAll()
+                .antMatchers(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
+                        securityProperties.getBrowser().getLoginPage(),
+                        "/authentication/login.html"
+                ).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

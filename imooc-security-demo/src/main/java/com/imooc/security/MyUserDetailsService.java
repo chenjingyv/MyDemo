@@ -46,7 +46,7 @@ public class MyUserDetailsService implements UserDetailsService, SocialUserDetai
 		return buildUser(userId);
 	}
 
-	private SocialUserDetails buildUser(String userId) {
+	private SocialUserDetails  buildUser(String userId) {
 		// 根据用户名查找用户信息
 		//根据查找到的用户信息判断用户是否被冻结
 		String password = passwordEncoder.encode("123456");
